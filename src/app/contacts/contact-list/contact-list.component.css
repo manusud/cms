@@ -1,0 +1,5 @@
+/* Large rounded green border */
+hr.new5 {
+    border: 6px solid green;
+    border-radius: 5px;
+  }
