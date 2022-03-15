@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="row-md">
-            <h1 class="list-group">Name</h1>
+            <h1 class="list-group">{{ contact.name }}</h1>
         </div>
 
         <div class="row">
@@ -9,8 +9,8 @@
                 
                 <span class="pull-left ">
                     <img
-                            src="../../assets/images/jacksonk.jpg" 
-                            alt=""
+                            [src]="contact.imageUrl" 
+                            alt="{{ contact.name }}"        
                             class="img-reponsive" 
                             style="max-height: 120px;">
                 </span>
@@ -27,12 +27,12 @@
 
 <div class="row">
     <div class="marg col-xs-12">
-        <strong>Email:</strong>
+        <strong>{{ contact.email }}</strong>
     </div>
 </div>
 
 <div class="row">
     <div class="marg col-xs-12">
-        <strong>Phone:</strong>
+        <strong>{{ contact.phone }}</strong>
     </div>
 </div>
