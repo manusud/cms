@@ -1,5 +1,5 @@
 import { Contact } from '../contact.model';
-import { Component, EventEmitter, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'cms-contact-item',
@@ -10,9 +10,8 @@ import { Component, EventEmitter, Input, OnInit} from '@angular/core';
 export class ContactItemComponent implements OnInit {
 
   @Input() contact: Contact;
+  @Input() id: number;
    
-  constructor() { }
-
   ngOnInit() {
   }
  

@@ -1,7 +1,9 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="pull-left"><h1>Contacts</h1></div>
-        <div class="pull-right"> <br> <button class="btn btn-success">New Contact</button></div>
+        <div class="pull-right"> <br> 
+            <a class="btn btn-success pull-right" routerLink="/contacts/new">New Contact</a>
+        </div>
     </div>
 </div>
 
@@ -9,7 +11,6 @@
 <div class="row">
     <div class="col-xs-12" >
         <cms-contact-item
-            (click)="onSelected(contact)"
             *ngFor="let contact of contacts"
             [contact]="contact"
         >

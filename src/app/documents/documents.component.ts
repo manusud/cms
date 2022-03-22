@@ -10,7 +10,6 @@ import { DocumentService } from './documents.service';
 })
 
 export class DocumentsComponent implements OnInit {
-
   selectedDocument: Document;
 
   constructor(private documentService: DocumentService) { }

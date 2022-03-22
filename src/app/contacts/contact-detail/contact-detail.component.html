@@ -16,8 +16,8 @@
                 </span>
                 
                 <div class="pull-right">
-                    <button class="marg btn btn-primary" type="button">Edit</button>
-                    <button class="marg btn btn-danger" type="button">Delete</button>
+                    <a routerLink="edit" class="marg btn btn-primary" >Edit</a>
+                    <a class="marg btn btn-danger" (click)="onDelete()">Delete</a>
                 </div>
             </div>
         </div>
