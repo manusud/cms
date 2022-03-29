@@ -1,20 +1,14 @@
-<div class="row">
-    <div class="col-xs-12">
-        <div class="pull-left"><h1>Contacts</h1></div>
-        <div class="pull-right"> <br> 
-            <a class="btn btn-success pull-right" routerLink="/contacts/new">New Contact</a>
+<div class="panel panel-default">
+    <div class="panel-heading flex-space-between">
+        <h3 >Contacts</h3>
+        <button [routerLink]="['new']" class="btn btn-success">New Contact</button>
+    </div>
+    <div class="panel-body">
+        <div class="col-xs-12">
+            <cms-contact-item 
+                *ngFor="let oneContact of contacts"
+                [contact]="oneContact"
+            ></cms-contact-item>
         </div>
     </div>
 </div>
-
-<hr class="new5">
-<div class="row">
-    <div class="col-xs-12" >
-        <cms-contact-item
-            *ngFor="let contact of contacts"
-            [contact]="contact"
-        >
-        </cms-contact-item>
-    </div>
-</div>
-<hr>
