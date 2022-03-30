@@ -1,41 +1,76 @@
-import {Injectable, EventEmitter, Input} from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Message } from './message.model';
-import { MOCKMESSAGES } from './MOCKMESSAGES';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class MessageService {
+  messageChangedEvent = new EventEmitter<Message[]>();
+  maxMessageId: number;
 
-  messageChangedEvent  = new EventEmitter<Message[]>();
-  messageSelectedEvent  = new EventEmitter<Message>();
-  
   messages: Message[] = [];
 
-  constructor() {
-        this.messages = MOCKMESSAGES;
-  }
+  constructor(private http: HttpClient) {  }
 
   getMessages(): Message[] {
-      return this.messages.slice();
+    this.http.get('https://cms-luiz-default-rtdb.firebaseio.com/messages.json')
+    .subscribe(
+      (messages: Message[]) => {
+        this.messages = messages
+        this.maxMessageId = this.getMaxId();
+        this.messages.sort();
+        this.messageChangedEvent.emit(this.messages.slice());
+      }, 
+      (error: any) => {
+        console.log(error.message);
+      }
+    )
+    return this.messages.slice();
   }
 
-  getMessage(id: string) {
+  storeMessages() {
+    const json = JSON.stringify(this.messages);
+    this.http.put(
+      'https://cms-luiz-default-rtdb.firebaseio.com/messages.json', 
+      json, 
+      {
+        headers: new HttpHeaders({'Content-Type':'application/json'})
+      }
+    ). subscribe(() => {
+      this.messageChangedEvent.emit(this.messages.slice());
+    })
+  }
 
-    for (let message of this.getMessages()) {
-      if (message.id === id) {
-        return message
-      } 
+  getMessage(id: string): Message {
+    for (let msg of this.messages) {
+      if (msg.id == id) {
+        return msg;
+      }
     }
+    return null;
+  }
 
-    return null
-  } 
-
+  // Add a new message from message-edit component
+  // then, emit event to show the messages list has changed
   addMessage(message: Message) {
     this.messages.push(message);
-    //console.log(this.messages.slice());
-    this.messageChangedEvent.emit(this.messages.slice());
+    // this.messageChangedEvent.emit(this.messages.slice());
+    this.storeMessages();
+  }
+
+
+  getMaxId(): number {
+    let maxId: number = 0;
+  
+    for (let message of this.messages) {
+      let currentId = +message.id;
+      if (currentId > maxId) {
+        maxId = currentId;
+      }
+    
+    return maxId;
+    }
   }
 
 }

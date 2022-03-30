@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact.service';
@@ -9,32 +8,32 @@ import { ContactService } from '../contact.service';
   templateUrl: './contact-list.component.html',
   styleUrls: ['./contact-list.component.css']
 })
-
 export class ContactListComponent implements OnInit, OnDestroy {
+  // @Output() contactSelected = new EventEmitter<Contact>();
+  subscription: Subscription;
+  term: string;
 
-  private subscription : Subscription;
   contacts: Contact[] = [];
 
-  constructor(private contactService: ContactService,
-    private router: Router,
-    private route: ActivatedRoute) {
+  constructor(private contactService: ContactService) { }
+
+  // Gets search string from input
+  search(value: string) {
+    this.term = value;
   }
 
-  ngOnInit(): void {  
-  this.contacts = this.contactService.getContacts();
-  this.subscription = this.contactService.contactListChangedEvent
-    .subscribe(
+  ngOnInit(): void {
+    this.contacts = this.contactService.getContacts();
+    this.subscription = this.contactService.contactListChangedEvent.subscribe(
       (contacts: Contact[]) => {
         this.contacts = contacts;
       }
-    );
+    )
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  onSelected(contact: Contact) {
-    this.contactService.contactSelectedEvent.emit(contact);
- }
+
 }
